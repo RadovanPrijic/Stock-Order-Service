@@ -12,8 +12,7 @@ import java.util.concurrent.CompletableFuture;
 @RequestMapping("/api/orders")
 @AllArgsConstructor
 @CrossOrigin
-public class OrderController {
-
+public class OrderRestController {
     private final OrderService orderService;
 
     @PostMapping("/place")
