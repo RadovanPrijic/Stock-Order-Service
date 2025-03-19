@@ -367,6 +367,17 @@
         animation: flashHighlight 1.5s ease-out;
       }
 
+      /* Error message style */
+      .error-message {
+        color: var(--danger);
+        font-weight: bold;
+        background-color: rgba(247, 37, 133, 0.1);
+        padding: 10px;
+        border-radius: var(--border-radius);
+        margin-top: 10px;
+        border-left: 4px solid var(--danger);
+      }
+
       @media (max-width: 768px) {
         .btn-group {
           flex-direction: column;
@@ -456,6 +467,7 @@
         <div class="loader" id="order-loader">
           <div class="loader-spinner"></div>
         </div>
+        <div id="order-error" class="error-message" style="display: none"></div>
       </div>
 
       <div class="tab-container">
@@ -647,14 +659,35 @@
               }
             );
 
-            // Subscribe to error topic
+            // Subscribe to general errors topic
             stompClient.subscribe("/topic/errors", function (message) {
               try {
-                const errorMsg = JSON.parse(message.body);
-                log("ERROR: " + errorMsg.message);
-                showNotification(errorMsg.message, "error");
+                const errorMsg = message.body;
+                log("ERROR: " + errorMsg);
+                showNotification("Error: " + errorMsg, "error");
               } catch (e) {
                 log("Error receiving error message: " + e.message);
+              }
+            });
+
+            // Subscribe to user-specific errors (from the custom error handler)
+            stompClient.subscribe("/user/queue/errors", function (message) {
+              try {
+                const errorMsg = message.body;
+                log("USER ERROR: " + errorMsg);
+                showNotification("Error: " + errorMsg, "error");
+
+                // Display error in the order form area
+                const orderError = document.getElementById("order-error");
+                orderError.textContent = errorMsg;
+                orderError.style.display = "block";
+
+                // Hide error after 5 seconds
+                setTimeout(() => {
+                  orderError.style.display = "none";
+                }, 5000);
+              } catch (e) {
+                log("Error processing user error message: " + e.message);
               }
             });
 
@@ -723,6 +756,7 @@
           .getElementById("startingAmount")
           .classList.remove("is-invalid");
         document.getElementById("amount-feedback").style.display = "none";
+        document.getElementById("order-error").style.display = "none";
 
         if (isNaN(price) || price <= 0) {
           document.getElementById("price").classList.add("is-invalid");
@@ -791,6 +825,11 @@
         } catch (e) {
           log("Error placing order: " + e.message);
           showNotification("Failed to place order: " + e.message, "error");
+
+          // Display error in the order form area
+          const orderError = document.getElementById("order-error");
+          orderError.textContent = "Error placing order: " + e.message;
+          orderError.style.display = "block";
         } finally {
           // Hide loader and re-enable button
           document.getElementById("order-loader").style.display = "none";

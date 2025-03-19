@@ -20,5 +20,7 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
         registry.addEndpoint("/ws-orders").
                 setAllowedOriginPatterns("*").
                 withSockJS();
+
+        registry.setErrorHandler(new CustomWebSocketErrorHandler());
     }
 }
