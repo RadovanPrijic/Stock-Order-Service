@@ -32,7 +32,7 @@ public class Order {
     @Enumerated(EnumType.STRING)
     @Column(name = "order_status", nullable = false)
     @NotNull(message = "Order status is required.")
-    private OrderStatus orderStatus = OrderStatus.ACTIVE;
+    private OrderStatus orderStatus;
 
     @Column(name = "price", nullable = false, precision = 18, scale = 8)
     @NotNull(message = "Price is required.")

@@ -32,6 +32,7 @@ public class OrderService {
             // Persists the incoming order to the database
             order.setRemainingAmount(order.getStartingAmount());
             order.setCreationTime(LocalDateTime.now());
+            order.setOrderStatus(OrderStatus.ACTIVE);
             order = orderRepository.save(order);
 
             // Tries to match the incoming order with active orders
