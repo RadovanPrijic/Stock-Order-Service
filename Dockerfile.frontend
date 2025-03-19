@@ -1,0 +1,10 @@
+# Use the official lightweight Nginx image
+FROM nginx:alpine
+
+# Copy ws.html to the default Nginx web root as index.html
+COPY ws.html /usr/share/nginx/html/index.html
+
+# Expose port 80 (optional, but helps document)
+EXPOSE 80
+
+# The default command "nginx -g 'daemon off;'" is already set by the base image

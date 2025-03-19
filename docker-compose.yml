@@ -1,0 +1,40 @@
+version: '3.8'
+services:
+  backend:
+    image: radovanprijic/stock-order-service
+    container_name: stock-order-service
+    ports:
+      - "8080:8080"
+    environment:
+      # Update these values as needed:
+      - DB_URL=jdbc:postgresql://postgres:5432/stockdb
+      - DB_USER=stockuser
+      - DB_PASSWORD=stockpass
+    networks:
+      - app-network
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:13
+    container_name: postgres
+    environment:
+      - POSTGRES_DB=stockdb
+      - POSTGRES_USER=stockuser
+      - POSTGRES_PASSWORD=stockpass
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+
+  frontend:
+    image: radovanprijic/stock-order-service-front
+    container_name: stock-order-frontend
+    ports:
+      - "80:80"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
