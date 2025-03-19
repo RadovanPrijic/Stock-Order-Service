@@ -11,6 +11,8 @@ import org.mapstruct.ReportingPolicy;
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface OrderMapper {
+
     Order orderCreateDTOToOrder(OrderCreateDTO orderCreateDTO);
     OrderDTO orderToOrderDTO(Order order);
+
 }

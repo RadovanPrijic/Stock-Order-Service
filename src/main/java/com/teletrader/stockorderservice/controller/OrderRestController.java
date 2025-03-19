@@ -17,7 +17,7 @@ import java.util.concurrent.CompletableFuture;
 @RequestMapping("/api/orders")
 @AllArgsConstructor
 @CrossOrigin
-@Tag(name = "Orders API", description = "Endpoints for order processing and storing")
+@Tag(name = "Orders API", description = "Endpoints for placing orders and accessing the order book")
 public class OrderRestController {
     private final OrderService orderService;
 

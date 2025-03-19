@@ -18,8 +18,6 @@ import java.util.Map;
 @RestControllerAdvice
 public class ExceptionHandlerController {
 
-
-
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException exception) {
