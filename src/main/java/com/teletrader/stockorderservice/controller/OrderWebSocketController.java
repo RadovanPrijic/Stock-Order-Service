@@ -25,13 +25,13 @@ public class OrderWebSocketController {
 
     @MessageMapping("/orders/top10/buy")
     @SendTo("/topic/top10-buy-orders")
-    public List<OrderDTO> getTopBuyOrders() {
+    public CompletableFuture<List<OrderDTO>> getTopBuyOrders() {
         return orderService.getTopBuyOrders();
     }
 
     @MessageMapping("/orders/top10/sell")
     @SendTo("/topic/top10-sell-orders")
-    public List<OrderDTO> getTopSellOrders() {
+    public CompletableFuture<List<OrderDTO>> getTopSellOrders() {
         return orderService.getTopSellOrders();
     }
 }
