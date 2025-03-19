@@ -46,10 +46,6 @@ vendor/
 # Ignore environment configuration files
 .env
 *.env
-application.properties
-application.yml
-application-*.properties
-application-*.yml
 
 # Ignore database and generated files
 *.sqlite
